@@ -1,7 +1,6 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 
-RUN apt-get update && \
-    apt-get install -y clang zlib1g-dev
+RUN apk add clang build-base zlib-dev
 
 WORKDIR /app
 
@@ -9,7 +8,7 @@ COPY . .
 
 RUN dotnet publish src/Core -c Release -o /build
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:9.0
+FROM mcr.microsoft.com/dotnet/runtime-deps:9.0-alpine
 
 WORKDIR /app
 
