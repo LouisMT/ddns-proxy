@@ -13,26 +13,36 @@ public static class Program
     {
         var builder = WebApplication.CreateSlimBuilder(args);
 
-        builder.Services.AddOptionsWithValidateOnStart<CloudflareOptions>()
-            .Bind(builder.Configuration.GetSection(CloudflareOptions.Cloudflare));
-        builder.Services.AddSingleton<IValidateOptions<CloudflareOptions>, CloudflareOptionsValidator>();
+        AddOptions(builder.Services, builder.Configuration);
 
-        builder.Services.AddOptionsWithValidateOnStart<DdnsOptions>()
-            .Bind(builder.Configuration.GetSection(DdnsOptions.Ddns));
-        builder.Services.AddSingleton<IValidateOptions<DdnsOptions>, DdnsOptionsValidator>();
-
-        builder.Services.AddTransient<CloudflareApiTokenMessageHandler>();
-
-        builder.Services.AddHttpClient<CloudflareClient>(o =>
-            {
-                o.BaseAddress = new Uri("https://api.cloudflare.com/client/v4/");
-            })
-            .AddHttpMessageHandler<CloudflareApiTokenMessageHandler>();
+        AddCloudflareClient(builder.Services);
 
         var app = builder.Build();
 
         app.MapGet("/update", UpdateHandler.Handle);
 
         app.Run();
+    }
+
+    private static void AddOptions(IServiceCollection services, ConfigurationManager configuration)
+    {
+        services.AddOptionsWithValidateOnStart<CloudflareOptions>()
+            .Bind(configuration.GetSection(CloudflareOptions.Cloudflare));
+        services.AddSingleton<IValidateOptions<CloudflareOptions>, CloudflareOptionsValidator>();
+
+        services.AddOptionsWithValidateOnStart<DdnsOptions>()
+            .Bind(configuration.GetSection(DdnsOptions.Ddns));
+        services.AddSingleton<IValidateOptions<DdnsOptions>, DdnsOptionsValidator>();
+    }
+
+    private static void AddCloudflareClient(IServiceCollection services)
+    {
+        services.AddTransient<CloudflareApiTokenMessageHandler>();
+
+        services.AddHttpClient<CloudflareClient>(o =>
+            {
+                o.BaseAddress = new Uri("https://api.cloudflare.com/client/v4/");
+            })
+            .AddHttpMessageHandler<CloudflareApiTokenMessageHandler>();
     }
 }
