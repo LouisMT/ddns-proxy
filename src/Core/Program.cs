@@ -12,8 +12,8 @@ public static class Program {
         builder.Services.AddOptions<CloudflareOptions>()
             .Bind(builder.Configuration.GetSection(CloudflareOptions.Cloudflare));
 
-        builder.Services.AddOptions<DdnsOptions>()
-            .Bind(builder.Configuration.GetSection(DdnsOptions.Ddns));
+        builder.Services.AddOptions<List<RecordOptions>>()
+            .Bind(builder.Configuration.GetSection(RecordOptions.Records));
 
         builder.Services.AddTransient<CloudflareApiTokenMessageHandler>();
 

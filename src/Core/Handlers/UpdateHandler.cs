@@ -10,12 +10,12 @@ public static class UpdateHandler
 {
     public static async Task<IResult> Handle(
         CloudflareClient cloudflareClient,
-        IOptions<DdnsOptions> ddnsOptions,
+        IOptions<List<RecordOptions>> recordOptions,
         [FromQuery, Required] string key,
         [FromQuery, Required] string ipv4
     )
     {
-        var record = ddnsOptions.Value.Records.Single(r => r.Key == key);
+        var record = recordOptions.Value.Single(r => r.Key == key);
 
         await cloudflareClient.UpdateDnsRecord(record.ZoneId, record.DnsRecordId, ipv4);
 
