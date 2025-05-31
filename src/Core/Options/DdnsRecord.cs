@@ -1,12 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Core.Options;
 
-public record RecordOptions
+public record DdnsRecord
 {
-    public const string Records = "Records";
-
+    [Required]
     public string Key { get; set; } = null!;
 
+    [Required]
     public string ZoneId { get; set; } = null!;
 
+    [Required]
     public string DnsRecordId { get; set; } = null!;
 }

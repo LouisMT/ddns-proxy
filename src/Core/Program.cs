@@ -2,6 +2,8 @@ using Core.Clients;
 using Core.Handlers;
 using Core.MessageHandlers;
 using Core.Options;
+using Core.OptionsValidators;
+using Microsoft.Extensions.Options;
 
 namespace Core;
 
@@ -11,11 +13,13 @@ public static class Program
     {
         var builder = WebApplication.CreateSlimBuilder(args);
 
-        builder.Services.AddOptions<CloudflareOptions>()
+        builder.Services.AddOptionsWithValidateOnStart<CloudflareOptions>()
             .Bind(builder.Configuration.GetSection(CloudflareOptions.Cloudflare));
+        builder.Services.AddSingleton<IValidateOptions<CloudflareOptions>, CloudflareOptionsValidator>();
 
-        builder.Services.AddOptions<List<RecordOptions>>()
-            .Bind(builder.Configuration.GetSection(RecordOptions.Records));
+        builder.Services.AddOptionsWithValidateOnStart<DdnsOptions>()
+            .Bind(builder.Configuration.GetSection(DdnsOptions.Ddns));
+        builder.Services.AddSingleton<IValidateOptions<DdnsOptions>, DdnsOptionsValidator>();
 
         builder.Services.AddTransient<CloudflareApiTokenMessageHandler>();
 
