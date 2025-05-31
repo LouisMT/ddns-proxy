@@ -64,6 +64,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write
+
     needs:
       - build-docker-image
 
