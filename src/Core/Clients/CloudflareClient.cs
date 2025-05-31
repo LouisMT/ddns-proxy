@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Core.Requests;
-using Core.Responses;
 
 namespace Core.Clients;
 

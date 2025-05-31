@@ -5,8 +5,10 @@ using Core.Options;
 
 namespace Core;
 
-public static class Program {
-    public static void Main(string[] args) {
+public static class Program
+{
+    public static void Main(string[] args)
+    {
         var builder = WebApplication.CreateSlimBuilder(args);
 
         builder.Services.AddOptions<CloudflareOptions>()
