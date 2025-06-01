@@ -18,6 +18,9 @@ public static class UpdateHandler
 
         await cloudflareClient.UpdateDnsRecord(record.ZoneId, record.DnsRecordId, ipv4);
 
-        return Results.Ok();
+        return Results.Ok(new UpdateResponse
+        {
+            Success = true
+        });
     }
 }

@@ -6,6 +6,7 @@ namespace Core;
 
 [JsonSerializable(typeof(UpdateDnsRecordRequest))]
 [JsonSerializable(typeof(UpdateDnsRecordResponse))]
+[JsonSerializable(typeof(UpdateResponse))]
 public partial class AppJsonSerializerContext : JsonSerializerContext
 {
 }
