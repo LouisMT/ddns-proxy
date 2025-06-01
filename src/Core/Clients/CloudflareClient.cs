@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Core.Requests;
+using Core.Responses;
 
 namespace Core.Clients;
 
@@ -34,5 +35,23 @@ public class CloudflareClient(
         {
             throw new Exception("Received unsuccessful response from Cloudflare API");
         }
+    }
+
+    public async Task<IList<DnsRecordResponse>> ListDnsRecords(string zoneId)
+    {
+        using var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"zones/{zoneId}/dns_records");
+
+        using var responseMessage = await httpClient.SendAsync(requestMessage);
+
+        responseMessage.EnsureSuccessStatusCode();
+
+        var response = await responseMessage.Content.ReadFromJsonAsync(_context.ListDnsRecordsResponse);
+
+        if (response is not { Success: true })
+        {
+            throw new Exception("Received unsuccessful response from Cloudflare API");
+        }
+
+        return response.Result;
     }
 }

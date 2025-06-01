@@ -25,6 +25,7 @@ public static class Program
         var app = builder.Build();
 
         app.MapGet("/update", UpdateHandler.Handle);
+        app.MapGet("/list", ListHandler.Handle);
 
         app.Run();
     }
