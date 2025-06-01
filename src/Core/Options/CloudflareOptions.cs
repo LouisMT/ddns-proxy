@@ -7,5 +7,5 @@ public record CloudflareOptions
     public const string Cloudflare = "Cloudflare";
 
     [Required]
-    public string ApiToken { get; set; } = null!;
+    public string ApiToken { get; set; } = string.Empty;
 }

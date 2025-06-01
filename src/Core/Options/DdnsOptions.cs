@@ -7,7 +7,9 @@ public record DdnsOptions
 {
     public const string Ddns = "DDNS";
 
+    public bool EnableList { get; set; } = true;
+
     [Required]
     [ValidateEnumeratedItems]
-    public IList<DdnsRecord> Records { get; set; } = null!;
+    public IList<DdnsRecord> Records { get; set; } = [];
 }
