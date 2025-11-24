@@ -8,7 +8,7 @@ COPY . .
 
 RUN dotnet publish src/Core -c Release -o /build
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:9.0-alpine
+FROM mcr.microsoft.com/dotnet/runtime-deps:10.0-alpine
 
 WORKDIR /app
 
